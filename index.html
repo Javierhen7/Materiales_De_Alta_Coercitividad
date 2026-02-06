@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe: Materiales Magnéticos de Alta Coercitividad</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1f2937;
+        }
+
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        .nav-link.active {
+            border-bottom: 2px solid #2563eb;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .magnet-gradient {
+            background: linear-gradient(135deg, #ef4444 50%, #3b82f6 50%);
+        }
+
+        .step-connector {
+            flex-grow: 1;
+            height: 2px;
+            background-color: #e5e7eb;
+            margin: 0 1rem;
+        }
+
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+
+                    <td><img src="logo-universidad-de-caldas.webp" width="60" class="logocaldas"></td>
+                    <span class="text-xl font-bold text-slate-800 tracking-tight"></span><strong>Universidad De Caldas</strong></span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center" id="nav-links">
+                    <a href="#inicio" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors" data-target="inicio">Inicio</a>
+                    <a href="#histeresis" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors" data-target="histeresis">Física & Histéresis</a>
+                    <a href="#materiales" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors" data-target="materiales">Clasificación</a>
+                    <a href="#comparativa" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors" data-target="comparativa">Datos</a>
+                    <a href="#mecatronica" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors" data-target="mecatronica">Mecatrónica</a>
+                    <a href="#proceso" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors" data-target="proceso">Fabricación</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-900 focus:outline-none">
+                        ☰
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#inicio" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Inicio</a>
+                <a href="#histeresis" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Física</a>
+                <a href="#materiales" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Materiales</a>
+                <a href="#mecatronica" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50">Mecatrónica</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <section id="inicio" class="scroll-mt-24">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12 overflow-hidden relative">
+                <div class="relative z-10 max-w-3xl">
+                    <div class="inline-block px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-semibold mb-4">Profe te amamos💘</div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">Materiales Magnéticos de <span class="text-blue-600">Alta Coercitividad</span></h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Conocidos como <strong>Imanes Duros</strong>, estos materiales son la piedra angular de la tecnología moderna. A diferencia de los materiales "blandos" que conducen flujo magnético temporalmente, los materiales de alta coercitividad retienen su estado magnético permanentemente, resistiendo la desmagnetización. Este informe explora su física, clasificación, datos comparativos y su rol vital en la mecatrónica.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex-1 min-w-[200px]">
+                            <h3 class="font-bold text-slate-800 mb-1">Coercitividad (H<sub>c</sub>)</h3>
+                            <p class="text-sm text-slate-600">La "resistencia" a ser desmagnetizado. Se mide en kA/m o Oersteds.</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 flex-1 min-w-[200px]">
+                            <h3 class="font-bold text-slate-800 mb-1">Remanencia (B<sub>r</sub>)</h3>
+                            <p class="text-sm text-slate-600">La "fuerza" magnética que queda tras retirar el campo externo. Se mide en Teslas o Gauss.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100 to-indigo-50 rounded-bl-full opacity-50 z-0"></div>
+            </div>
+        </section>
+
+
+        <section id="histeresis" class="scroll-mt-24">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 space-y-4">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm">1</span>
+                        El Ciclo de Histéresis
+                    </h2>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        La característica definitoria de un material magnético duro es un <strong>ciclo de histéresis "ancho"</strong>. Esto significa que se requiere mucha energía para alinear sus dominios magnéticos, pero una vez alineados, retienen esa energía tenazmente.
+                    </p>
+                    <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-md">
+                        <h4 class="font-bold text-blue-900 text-sm mb-2">Puntos Clave:</h4>
+                        <ul class="text-sm text-blue-800 space-y-2 list-disc list-inside">
+                            <li><strong>Saturación:</strong> Todos los dominios alineados.</li>
+                            <li><strong>Remanencia (B<sub>r</sub>):</strong> Magnetismo restante al quitar el campo.</li>
+                            <li><strong>Coercitividad (H<sub>c</sub>):</strong> Campo inverso necesario para llevar B a cero.</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4">
+                        <label class="flex items-center space-x-3 cursor-pointer p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+                            <input type="checkbox" id="toggleSoftMagnet" class="form-checkbox h-5 w-5 text-blue-600" onchange="toggleHysteresisData()">
+                            <span class="text-sm font-medium text-slate-700">Comparar con Imán Blando (Hierro)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-slate-800">Curva de Histéresis B-H Típica</h3>
+                        <span class="text-xs font-mono bg-gray-100 text-gray-500 px-2 py-1 rounded">Eje Y: Inducción (B) | Eje X: Campo (H)</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="hysteresisChart"></canvas>
+                    </div>
+                    <p class="text-center text-xs text-gray-400 mt-2">Simulación simplificada del comportamiento magnético</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="materiales" class="scroll-mt-24 bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <div class="max-w-3xl mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm">2</span>
+                    Clasificación de Materiales
+                </h2>
+                <p class="text-slate-600 text-sm">
+                    No todos los imanes permanentes son iguales. Se clasifican según su composición química y proceso de fabricación. Cada uno tiene un balance diferente entre costo, potencia (Producto de Energía) y resistencia térmica. Haga clic en las tarjetas para ver detalles técnicos.
+                </p>
+            </div>
+
+
+            <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+                <button class="px-4 py-2 rounded-full bg-slate-800 text-white text-sm font-medium hover:bg-slate-700 transition active-filter" onclick="filterMaterials('all', this)">Todos</button>
+                <button class="px-4 py-2 rounded-full bg-slate-100 text-slate-600 text-sm font-medium hover:bg-slate-200 transition" onclick="filterMaterials('rare-earth', this)">Tierras Raras</button>
+                <button class="px-4 py-2 rounded-full bg-slate-100 text-slate-600 text-sm font-medium hover:bg-slate-200 transition" onclick="filterMaterials('ceramic', this)">Cerámicos</button>
+                <button class="px-4 py-2 rounded-full bg-slate-100 text-slate-600 text-sm font-medium hover:bg-slate-200 transition" onclick="filterMaterials('alloy', this)">Aleaciones</button>
+            </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="material-grid">
+
+            </div>
+        </section>
+
+
+        <section id="comparativa" class="scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm">3</span>
+                Análisis Comparativo de Propiedades
+            </h2>
+            <p class="text-slate-600 text-sm mb-6 max-w-4xl">
+                La elección del material depende de la aplicación. Mientras que el Neodimio ofrece la máxima potencia por volumen, el Samario-Cobalto es superior en entornos calientes, y las Ferritas son imbatibles en costo. Las siguientes gráficas comparan estas magnitudes críticas.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="font-bold text-slate-800 mb-4">Coercitividad (H<sub>c</sub>) - Resistencia a Desmagnetización</h3>
+                    <div class="chart-container">
+                        <canvas id="coercivityChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Medido en kA/m (Kiloamperios por metro). Valores aproximados típicos.</p>
+                </div>
+
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <h3 class="font-bold text-slate-800 mb-4">Producto de Energía Máximo (B<sub>h<sub>max</sub></sub>) - Potencia</h3>
+                    <div class="chart-container">
+                        <canvas id="energyProductChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Medido en MGOe (Mega Gauss-Oersteds). Indica la densidad de energía magnética.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="mecatronica" class="scroll-mt-24 bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/3 space-y-6">
+                    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm">4</span>
+                        Aplicaciones en Mecatrónica
+                    </h2>
+                    <p class="text-slate-600 text-sm">
+                        En ingeniería mecatrónica, los materiales de alta coercitividad son esenciales para la conversión de energía (eléctrica a mecánica) y la detección de posición.
+                    </p>
+                    
+                    <!-- Vertical Tabs -->
+                    <div class="flex flex-col space-y-2">
+                        <button onclick="showMechApp('bldc')" class="mech-tab active text-left px-4 py-3 rounded-lg text-sm font-medium bg-blue-50 text-blue-700 border border-blue-100 transition hover:bg-blue-100">
+                            ⚡ Motores BLDC (Brushless)
+                        </button>
+                        <button onclick="showMechApp('sensor')" class="mech-tab text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition border border-transparent">
+                            📡 Sensores de Efecto Hall
+                        </button>
+                        <button onclick="showMechApp('actuator')" class="mech-tab text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 transition border border-transparent">
+                            🔊 Actuadores de Bobina Móvil
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visualization Area -->
+                <div class="md:w-2/3 bg-slate-50 rounded-xl border border-slate-200 p-6 flex flex-col justify-center min-h-[400px]">
+                    <div id="mech-content-bldc" class="mech-content space-y-6 animate-fade-in">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-slate-800">Motor de Corriente Continua Sin Escobillas (BLDC)</h3>
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-md font-bold">Uso: Neodimio / Samario</span>
+                        </div>
+                        <div class="flex justify-center py-6">
+                            <!-- CSS Shape Representation of a Rotor -->
+                            <div class="relative w-48 h-48 rounded-full border-8 border-slate-300 flex items-center justify-center shadow-inner bg-white">
+                                <!-- Stator Coils (Static) -->
+                                <div class="absolute top-0 w-8 h-8 bg-amber-500 rounded-sm shadow-sm" title="Bobina A"></div>
+                                <div class="absolute bottom-0 w-8 h-8 bg-amber-500 rounded-sm shadow-sm" title="Bobina B"></div>
+                                <div class="absolute left-0 w-8 h-8 bg-amber-500 rounded-sm shadow-sm" title="Bobina C"></div>
+                                <div class="absolute right-0 w-8 h-8 bg-amber-500 rounded-sm shadow-sm" title="Bobina D"></div>
+                                
+                                <!-- Rotor (Magnets) -->
+                                <div class="w-24 h-24 rounded-full bg-slate-800 relative animate-spin-slow flex items-center justify-center text-white font-bold text-xs shadow-xl">
+                                    <div class="absolute top-0 inset-x-0 h-1/2 bg-red-500 rounded-t-full flex items-center justify-center"><span class="mt-4">N</span></div>
+                                    <div class="absolute bottom-0 inset-x-0 h-1/2 bg-blue-600 rounded-b-full flex items-center justify-center"><span class="mb-4">S</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-100">
+                            <p class="text-sm text-slate-600">
+                                Los imanes de alta coercitividad (Rotor) interactúan con el campo magnético cambiante de las bobinas (Estator). Su alta resistencia a la desmagnetización permite que el motor soporte altas temperaturas y corrientes inversas sin perder torque.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="mech-content-sensor" class="mech-content hidden space-y-6 animate-fade-in">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-slate-800">Sensores de Posición (Efecto Hall)</h3>
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-md font-bold">Uso: Ferrita / Alnico</span>
+                        </div>
+                        <div class="flex justify-center items-center py-10 gap-8">
+                            <!-- Magnet moving past sensor -->
+                            <div id="sensor-magnet" class="w-16 h-8 bg-gradient-to-r from-red-500 to-blue-600 rounded shadow-md text-white text-xs flex items-center justify-center font-bold">N &nbsp; S</div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-1 h-12 border-l-2 border-dashed border-gray-300"></div>
+                                <div class="w-8 h-8 bg-slate-800 rounded flex items-center justify-center text-xl shadow-lg border-2 border-green-400">📡</div>
+                                <span class="text-xs text-slate-500 mt-2">Sensor Hall</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-100">
+                            <p class="text-sm text-slate-600">
+                                Un pequeño imán permanente adherido a una parte móvil (ej. eje de rueda) pasa frente a un chip sensor. La alta estabilidad del imán asegura que la lectura de posición sea precisa durante millones de ciclos (ej. ABS en frenos, encoders).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="mech-content-actuator" class="mech-content hidden space-y-6 animate-fade-in">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-bold text-slate-800">Actuadores de Bobina de Voz (VCM)</h3>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-md font-bold">Uso: Neodimio (HDD)</span>
+                        </div>
+                        <div class="flex justify-center items-center py-6">
+                            <!-- VCM Diagram -->
+                            <div class="relative w-64 h-32 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center overflow-hidden">
+                                <div class="absolute top-2 bottom-2 left-2 w-10 bg-gradient-to-b from-red-500 to-blue-600 rounded-l shadow-inner" title="Imán Estático"></div>
+                                <div class="absolute top-2 bottom-2 right-2 w-10 bg-gradient-to-b from-red-500 to-blue-600 rounded-r shadow-inner" title="Imán Estático"></div>
+                                
+                                <div class="w-32 h-16 border-4 border-amber-600 rounded flex items-center justify-center bg-white/50 backdrop-blur">
+                                    <span class="text-xs font-bold text-amber-800">Bobina Móvil</span>
+                                </div>
+                                <div class="absolute w-full h-[1px] bg-gray-400 top-1/2 -z-10"></div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-100">
+                            <p class="text-sm text-slate-600">
+                                Común en discos duros (para mover el cabezal) y altavoces. El imán permanente crea un campo estático muy fuerte. Al pasar corriente por la bobina, esta se mueve linealmente con altísima precisión. Se requiere alta coercitividad para que el imán pueda ser muy delgado y potente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Magnetization Process -->
+        <section id="proceso" class="scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-2">
+                <span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm">5</span>
+                Proceso de Magnetización
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Step 1 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded">Paso 1</div>
+                    <h4 class="font-bold text-slate-700 mb-2 mt-2">Fabricación de la Forma</h4>
+                    <p class="text-xs text-slate-500">Sinterización (polvo prensado y calentado) o fundición de la aleación en la forma deseada. En este punto, el material <strong class="text-red-500">NO es magnético</strong>.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded">Paso 2</div>
+                    <h4 class="font-bold text-slate-700 mb-2 mt-2">Alineación (Opcional)</h4>
+                    <p class="text-xs text-slate-500">Durante el prensado, se puede aplicar un campo débil para orientar los granos cristalinos (Anisotropía), mejorando las propiedades finales.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 relative border-l-4 border-l-blue-500">
+                    <div class="absolute -top-3 left-4 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">Paso 3: Carga</div>
+                    <h4 class="font-bold text-slate-700 mb-2 mt-2">Pulso de Alta Energía</h4>
+                    <p class="text-xs text-slate-500">Se coloca la pieza en una bobina solenoide. Se descarga un banco de condensadores creando un pulso de campo magnético de <strong>3 a 5 veces</strong> la coercitividad del material.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded">Paso 4</div>
+                    <h4 class="font-bold text-slate-700 mb-2 mt-2">Estabilización</h4>
+                    <p class="text-xs text-slate-500">El material se relaja a su punto de remanencia (B<sub>r</sub>). Ahora es un imán permanente listo para su uso industrial.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 pt-8 pb-12 mt-12 text-center">
+            <p class="text-slate-500 text-sm">Creado por <strong>Javier Hernandez Gallego, Juan Felipe Valencia, Jimmy Alberto Mendoza y Andres Felipe Marin</strong></p>
+            <p class="text-slate-400 text-xs mt-2">Datos aproximados con fines educativos.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- DATA & STATE ---
+        const materialsData = [
+            {
+                id: 'ndfeb',
+                name: 'Neodimio (NdFeB)',
+                type: 'rare-earth',
+                formula: 'Nd₂Fe₁₄B',
+                coercivity: 1200, // kA/m approx avg
+                energy: 45, // MGOe avg
+                temp: 150, // Max working temp C
+                pros: 'Máxima potencia por tamaño, alta coercitividad.',
+                cons: 'Se corroe fácilmente (requiere recubrimiento), baja resistencia térmica.',
+                uses: 'Discos duros, Motores EV, Auriculares.'
+            },
+            {
+                id: 'smco',
+                name: 'Samario-Cobalto (SmCo)',
+                type: 'rare-earth',
+                formula: 'SmCo₅ / Sm₂Co₁₇',
+                coercivity: 900,
+                energy: 30,
+                temp: 350,
+                pros: 'Excelente estabilidad térmica, resistente a corrosión.',
+                cons: 'Muy frágil, costoso (Cobalto es caro).',
+                uses: 'Aeroespacial, Motores de alto rendimiento, Turbinas.'
+            },
+            {
+                id: 'ferrite',
+                name: 'Ferrita (Cerámico)',
+                type: 'ceramic',
+                formula: 'BaO·6Fe₂O₃',
+                coercivity: 250,
+                energy: 4,
+                temp: 250,
+                pros: 'Muy barato, resistente a corrosión, aislante eléctrico.',
+                cons: 'Baja potencia, frágil.',
+                uses: 'Imanes de nevera, Altavoces, Separadores magnéticos.'
+            },
+            {
+                id: 'alnico',
+                name: 'Alnico',
+                type: 'alloy',
+                formula: 'Al-Ni-Co-Fe',
+                coercivity: 50,
+                energy: 5,
+                temp: 540,
+                pros: 'Estabilidad térmica extrema, mecánicamente fuerte.',
+                cons: 'Baja coercitividad (se desmagnetiza fácil).',
+                uses: 'Instrumentos de medición, Guitarras eléctricas, Sensores antiguos.'
+            }
+        ];
+
+        // --- CHART INSTANCES ---
+        let hysteresisChart = null;
+        let coercivityChart = null;
+        let energyChart = null;
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initHysteresisChart();
+            renderMaterialCards('all');
+            initComparisonCharts();
+            setupNavigation();
+        });
+
+        // --- NAVIGATION LOGIC ---
+        function setupNavigation() {
+            // Smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Mobile menu toggle
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+
+        // --- HYSTERESIS CHART LOGIC ---
+        function initHysteresisChart() {
+            const ctx = document.getElementById('hysteresisChart').getContext('2d');
+            
+            // Hard Magnet Data (Wide Loop)
+            const hardData = [
+                {x: 0, y: 1.2}, {x: 200, y: 1.3}, {x: 800, y: 1.4}, // Saturation
+                {x: 400, y: 1.3}, {x: 0, y: 1.1}, // Remanence (Br) point
+                {x: -600, y: 0}, // Coercivity (Hc) point
+                {x: -1000, y: -1.3}, // Negative Saturation
+                {x: -400, y: -1.2}, {x: 0, y: -1.0}, // Negative Br
+                {x: 600, y: 0}, // Positive Hc
+                {x: 1000, y: 1.3} // Back to Saturation
+            ];
+
+            // Soft Magnet Data (Narrow Loop - Iron)
+            const softData = [
+                {x: 0, y: 1.5}, {x: 50, y: 1.6}, {x: 100, y: 1.65},
+                {x: 20, y: 1.6}, {x: 0, y: 1.4}, // High Br
+                {x: -10, y: 0}, // Very Low Hc
+                {x: -100, y: -1.65},
+                {x: -20, y: -1.6}, {x: 0, y: -1.4},
+                {x: 10, y: 0},
+                {x: 100, y: 1.65}
+            ];
+
+            hysteresisChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Material Duro (Alta Coercitividad)',
+                        data: hardData,
+                        showLine: true,
+                        borderColor: '#2563eb', // Blue
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'center',
+                            title: { display: true, text: 'Intensidad de Campo (H)' },
+                            grid: { color: '#e5e7eb' }
+                        },
+                        y: {
+                            type: 'linear',
+                            position: 'center',
+                            title: { display: true, text: 'Inducción Magnética (B)' },
+                            grid: { color: '#e5e7eb' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `(${context.parsed.x}, ${context.parsed.y})`;
+                                }
+                            }
+                        },
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function toggleHysteresisData() {
+            const checkbox = document.getElementById('toggleSoftMagnet');
+            const softData = [
+                {x: 0, y: 1.5}, {x: 50, y: 1.6}, {x: 200, y: 1.65}, {x: 0, y: 1.4}, {x: -20, y: 0}, {x: -200, y: -1.65}, {x: 0, y: -1.4}, {x: 20, y: 0}, {x: 200, y: 1.65}
+            ]; // Simplified for visual
+
+            if (checkbox.checked) {
+                hysteresisChart.data.datasets.push({
+                    label: 'Material Blando (Hierro)',
+                    data: softData,
+                    showLine: true,
+                    borderColor: '#9ca3af', // Grey
+                    backgroundColor: 'rgba(156, 163, 175, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderDash: [5, 5]
+                });
+            } else {
+                hysteresisChart.data.datasets.pop();
+            }
+            hysteresisChart.update();
+        }
+
+        // --- MATERIALS GRID LOGIC ---
+        function renderMaterialCards(filter) {
+            const container = document.getElementById('material-grid');
+            container.innerHTML = '';
+            
+            const filtered = filter === 'all' 
+                ? materialsData 
+                : materialsData.filter(m => m.type === filter);
+
+            filtered.forEach(mat => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-sm border border-gray-100 p-6 card-hover transition-all duration-300';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">${mat.name}</h3>
+                            <span class="text-xs font-mono text-blue-600 bg-blue-50 px-2 py-1 rounded">${mat.formula}</span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">${mat.id.substring(0,2).toUpperCase()}</div>
+                    </div>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Coercitividad:</span>
+                            <span class="font-semibold text-slate-700">${mat.coercivity} kA/m</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Energía Max:</span>
+                            <span class="font-semibold text-slate-700">${mat.energy} MGOe</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                            <div class="bg-blue-600 h-1.5 rounded-full" style="width: ${(mat.energy / 50) * 100}%"></div>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-gray-100">
+                        <p class="text-xs text-slate-600 mb-2"><strong>Uso:</strong> ${mat.uses}</p>
+                        <p class="text-xs text-green-700">✓ ${mat.pros.split(',')[0]}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterMaterials(type, btn) {
+            renderMaterialCards(type);
+            // Update active button state
+            document.querySelectorAll('#materiales button').forEach(b => {
+                b.classList.remove('bg-slate-800', 'text-white');
+                b.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            btn.classList.remove('bg-slate-100', 'text-slate-600');
+            btn.classList.add('bg-slate-800', 'text-white');
+        }
+
+        // --- COMPARISON CHARTS LOGIC ---
+        function initComparisonCharts() {
+            const labels = materialsData.map(m => m.name.split(' ')[0]);
+            
+            // Coercivity Chart
+            new Chart(document.getElementById('coercivityChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Coercitividad (kA/m)',
+                        data: materialsData.map(m => m.coercivity),
+                        backgroundColor: [
+                            'rgba(37, 99, 235, 0.7)',
+                            'rgba(37, 99, 235, 0.5)',
+                            'rgba(37, 99, 235, 0.3)',
+                            'rgba(37, 99, 235, 0.2)'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Energy Product Chart
+            new Chart(document.getElementById('energyProductChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'BHmax (MGOe)',
+                        data: materialsData.map(m => m.energy),
+                        backgroundColor: [
+                            'rgba(217, 119, 6, 0.7)',
+                            'rgba(217, 119, 6, 0.6)',
+                            'rgba(217, 119, 6, 0.3)',
+                            'rgba(217, 119, 6, 0.4)'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+        
+
+        // --- MECHATRONICS TABS LOGIC ---
+        function showMechApp(id) {
+            // Hide all content
+            document.querySelectorAll('.mech-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            // Show selected
+            document.getElementById(`mech-content-${id}`).classList.remove('hidden');
+
+            // Update buttons
+            document.querySelectorAll('.mech-tab').forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-blue-700', 'border-blue-100');
+                btn.classList.add('text-slate-600', 'border-transparent');
+            });
+            // Highlight active button (finding the one that called this function is tricky without passing 'this', so we rely on the onclick order or generic class toggle logic, but let's just re-style based on ID logic if we had strict mapping. Simplified here:
+            event.currentTarget.classList.remove('text-slate-600', 'border-transparent');
+            event.currentTarget.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-100');
+        }
+        
+
+    </script>
+    <style>
+        /* Animation utility */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
